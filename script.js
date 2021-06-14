@@ -1,5 +1,6 @@
 const poke_container = document.getElementById("poke-container");
-const pokemon_count = 150;
+const pokemon_start = 1;
+const pokemon_count = 300;
 const colors = {
   fire: "#FDDFDF",
   grass: "#DEFDE0",
@@ -19,12 +20,14 @@ const colors = {
 
 const mainTypes = Object.keys(colors);
 
+// Get Pokemon data from PokeAPI
 const fetchPokemons = async () => {
-  for (let i = 1; i <= pokemon_count; i++) {
+  for (let i = pokemon_start; i <= pokemon_count; i++) {
     await getPokemon(i);
   }
 };
 
+// Parse the json and get data on individual pokemon
 const getPokemon = async (id) => {
   const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
   const res = await fetch(url);
@@ -32,6 +35,7 @@ const getPokemon = async (id) => {
   createPokemonCard(data);
 };
 
+// Separate all the information and make a card
 const createPokemonCard = (pokemon) => {
   const pokemonEl = document.createElement("div");
   pokemonEl.classList.add("pokemon");
@@ -48,6 +52,7 @@ const createPokemonCard = (pokemon) => {
   console.log(color);
   pokemonEl.style.backgroundColor = color;
 
+  // Make new card
   const pokemonInnerHTML = `
     <div class="img-container">
         <img src="https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png" alt=""/>
@@ -60,7 +65,8 @@ const createPokemonCard = (pokemon) => {
     `;
 
   pokemonEl.innerHTML = pokemonInnerHTML;
-
+  
+  // Add card to the list
   poke_container.appendChild(pokemonEl);
 };
 
